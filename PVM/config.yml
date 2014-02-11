@@ -1,0 +1,28 @@
+#PVM Plugin By TAEmery0
+HasBeenSetup: false
+#Change This ^^^ To Make The Plugin Active
+Armor:
+  Helmet:
+  Chestplate:
+  Leggings:
+  Boots:
+GivenItems: #Up To 10 Items Given
+  - 272
+MySQL:
+  Host:
+  User:
+  Password:
+  Database:
+Lobby:
+  x: 
+  y: 
+  z: 
+  w: 
+  teleport-on-join: false
+arenas:
+  1: 
+    x:
+    y:
+    z:
+    w: 
+    active: false
