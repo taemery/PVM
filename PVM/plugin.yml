@@ -1,6 +1,6 @@
 name: PVM
 main: me.taemery0.PVM.PVM
-version: 2.0.1
+version: 2.2
 database: false
 author: TAEmery0 - Tyler Emery
 description: Plugin for PVM Arena and Overall Game Management

@@ -60,10 +60,13 @@ public class Vars {
 			}
 			return new Location(w, x, y, z);
 		}else{
-			double x = plugin.getConfig().getDouble("Lobby.x");
-			double y = plugin.getConfig().getDouble("Lobby.y");
-			double z = plugin.getConfig().getDouble("Lobby.z");
+			double x = plugin.getConfig().getDouble("Lobby.x", -0);
+			double y = plugin.getConfig().getDouble("Lobby.y", -0);
+			double z = plugin.getConfig().getDouble("Lobby.z", -0);
 			World w = Bukkit.getWorld(plugin.getConfig().getString("Lobby.w"));
+			if (x == -0 && y == -0 && z == -0){
+				throw new PVMException("arena.doesntexist");
+			}
 			return new Location(w, x, y, z);
 		}
 	}

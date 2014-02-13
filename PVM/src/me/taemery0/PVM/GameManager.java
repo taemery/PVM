@@ -5,11 +5,9 @@ import org.bukkit.entity.Player;
 
 public class GameManager {
 	public static void addPlayer(Player player, Integer arena) throws PVMException{
-		/* Check If Plugin Is Safe To Run */
 		if(!Vars.pluginSafe){
 			throw new PVMException("plugin.notsafe");
 		}
-		/* Check if player is not in game */
 		if(Vars.playerGameStatus.containsKey(player.getName())){
 			throw new PVMException("player.isingame");
 		}
@@ -25,11 +23,9 @@ public class GameManager {
 		player.sendMessage(Vars.PVMPrefix + ChatColor.GREEN + "You Joined Arena " + arena);
 	}
 	public static void delPlayer(Player player) throws PVMException{
-		/* Check If Plugin Is Safe To Run */
 		if(!Vars.pluginSafe){
 			throw new PVMException("plugin.notsafe");
 		}
-		/* Check if player is in game */
 		if(!Vars.playerGameStatus.containsKey(player.getName())){
 			throw new PVMException("player.isnotingame");
 		}
@@ -39,7 +35,7 @@ public class GameManager {
 		try{
 			player.teleport(Vars.locations(0));
 		} catch (PVMException e){
-			throw new PVMException(e.getMessage());
+			throw new PVMException(Vars.userError(e.getMessage()));
 		}
 		player.sendMessage(Vars.PVMPrefix + ChatColor.GREEN + "You Exited The Game");
 	}
