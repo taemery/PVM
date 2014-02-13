@@ -1,25 +1,25 @@
 #PVM Plugin By TAEmery0
 HasBeenSetup: false
-#Change This ^^^ To Make The Plugin Active
+#Change This ^^^ To Make The Plugin Active (Puts plugin in "Safe State")
 Armor:
-  Helmet:
-  Chestplate:
-  Leggings:
-  Boots:
+  Helmet: LEATHER_HELMET
+  Chestplate: LEATHER_CHESTPLATE
+  Leggings: LEATHER_LEGGINGS
+  Boots: LEATHER_BOOTS
 GivenItems: #Up To 10 Items Given
-  - 272
+  1: STONE_SWORD
 MySQL:
   Host:
   User:
   Password:
   Database:
 Lobby:
-  x: 
-  y: 
-  z: 
-  w: 
+  x: 0
+  y: 100
+  z: 0
+  w: world
   teleport-on-join: false
-arenas:
+Arenas:
   1: 
     x:
     y:

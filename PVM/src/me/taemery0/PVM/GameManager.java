@@ -14,10 +14,13 @@ public class GameManager {
 			throw new PVMException("player.isingame");
 		}
 		try{
-			player.teleport(Vars.arenas(arena));
+			player.teleport(Vars.locations(arena));
 		} catch (PVMException e){
 			throw new PVMException(e.getMessage());
 		}
+		Vars.clearInv(player);
+		Vars.giveItems(player);
+		Vars.healPlayer(player);
 		Vars.playerGameStatus.put(player.getName(), arena);
 		player.sendMessage(Vars.PVMPrefix + ChatColor.GREEN + "You Joined Arena " + arena);
 	}
@@ -31,6 +34,13 @@ public class GameManager {
 			throw new PVMException("player.isnotingame");
 		}
 		Vars.playerGameStatus.remove(player.getName());
+		Vars.clearInv(player);
+		Vars.healPlayer(player);
+		try{
+			player.teleport(Vars.locations(0));
+		} catch (PVMException e){
+			throw new PVMException(e.getMessage());
+		}
 		player.sendMessage(Vars.PVMPrefix + ChatColor.GREEN + "You Exited The Game");
 	}
 }

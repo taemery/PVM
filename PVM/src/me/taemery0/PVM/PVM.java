@@ -14,7 +14,7 @@ public class PVM extends JavaPlugin{
 	public void onEnable() {
 		plugin = this;
 		getCommand("pvm").setExecutor(new PVMCommandHandler());
-		getServer().getPluginManager().registerEvents(new EventHandler(), this);
+		getServer().getPluginManager().registerEvents(new PVMEventHandler(), this);
 		this.saveDefaultConfig();
 		if(plugin.getConfig().getBoolean("HasBeenSetup")){
 			Vars.pluginSafe = true;
