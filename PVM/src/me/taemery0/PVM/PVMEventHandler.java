@@ -24,25 +24,25 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PVMEventHandler implements Listener {
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		try {
-			GameManager.delPlayer(event.getEntity());
-			event.getDrops().clear();
-			event.setDroppedExp(0);
-			event.setDeathMessage(ChatColor.BLUE
-					+ "[PVM] "
-					+ ChatColor.RED
-					+ event.getEntity().getName()
-					+ " was killed by "
-					+ WordUtils.capitalizeFully(getKiller(event).getType()
-							.name()));
-		} catch (PVMException e) {
-			if (e.getMessage() != "player.isnotingame") {
-				event.getEntity().sendMessage(
-						Vars.PVMPrefix + ChatColor.RED + e.getMessage());
+		  event.getDrops().clear(); 
+		  event.setDroppedExp(0);
+		  event.setDeathMessage(ChatColor.BLUE + "[PVM] " + ChatColor.RED
+				+ event.getEntity().getName() + " was killed by "
+				+ WordUtils.capitalizeFully(getKiller(event).getType().name())); 
+	}
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event) {
+		if (Vars.playerGameStatus.containsKey(event.getPlayer().getName())) {
+			try {
+				event.setRespawnLocation(Vars.locations(0));
+				GameManager.delPlayer(event.getPlayer());
+			} catch (PVMException e) {
+				event.getPlayer().sendMessage(Vars.PVMPrefix + ChatColor.RED + e.getMessage());
 			}
 		}
 	}
@@ -140,6 +140,8 @@ public class PVMEventHandler implements Listener {
 	@EventHandler
 	public void onSignChange(SignChangeEvent e) {
 		if (e.getLine(0).equalsIgnoreCase("[PVM]")) {
+			e.getPlayer().sendMessage(
+					Vars.PVMPrefix + ChatColor.GREEN + "Sign Created");
 			e.setLine(0, ChatColor.BLUE + "[PVM]");
 			String arena = e.getLine(1);
 			try {
@@ -162,7 +164,6 @@ public class PVMEventHandler implements Listener {
 				Sign sign = (Sign) e.getClickedBlock().getState();
 				if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[PVM]")) {
 					try {
-						player.sendMessage(sign.getLine(1));
 						GameManager.addPlayer(player,
 								Integer.parseInt(sign.getLine(1).substring(2)));
 					} catch (PVMException ex) {
