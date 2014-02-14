@@ -19,6 +19,7 @@ public class GameManager {
 		Vars.clearInv(player);
 		Vars.giveItems(player);
 		Vars.healPlayer(player);
+		ScoreboardManager.ingameScoreboard(player);
 		Vars.playerGameStatus.put(player.getName(), arena);
 		player.sendMessage(Vars.PVMPrefix + ChatColor.GREEN + "You Joined Arena " + arena);
 	}
@@ -32,6 +33,8 @@ public class GameManager {
 		Vars.playerGameStatus.remove(player.getName());
 		Vars.clearInv(player);
 		Vars.healPlayer(player);
+		ScoreboardManager.resetPlayerPoints(player);
+		ScoreboardManager.resetPlayerScoreboard(player);
 		try{
 			player.teleport(Vars.locations(0));
 		} catch (PVMException e){

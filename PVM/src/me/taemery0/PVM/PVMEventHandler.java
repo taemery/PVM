@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PVMEventHandler implements Listener {
+	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		  event.getDrops().clear(); 
@@ -35,6 +36,7 @@ public class PVMEventHandler implements Listener {
 				+ event.getEntity().getName() + " was killed by "
 				+ WordUtils.capitalizeFully(getKiller(event).getType().name())); 
 	}
+	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
 		if (Vars.playerGameStatus.containsKey(event.getPlayer().getName())) {
@@ -97,9 +99,14 @@ public class PVMEventHandler implements Listener {
 		event.setCancelled(true);
 	}
 
+	
+	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event) {
 		event.getDrops().clear();
 		event.setDroppedExp(0);
+		if (event.getEntity().getKiller() instanceof Player) {
+			ScoreboardManager.mobKill(event.getEntity().getKiller());
+		}
 	}
 
 	@EventHandler
