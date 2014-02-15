@@ -25,6 +25,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class PVMEventHandler implements Listener {
 	
@@ -128,6 +130,12 @@ public class PVMEventHandler implements Listener {
 			} catch (PVMException e) {
 			}
 		}
+		if (Vars.playerGameStatus.containsKey(event.getPlayer().getName())){
+			try {
+				GameManager.delPlayer(event.getPlayer());
+			} catch (PVMException e) {
+			}
+		}
 	}
 
 	@EventHandler
@@ -153,18 +161,20 @@ public class PVMEventHandler implements Listener {
 			String arena = e.getLine(1);
 			try {
 				Vars.locations(Integer.parseInt(arena));
-			} catch (PVMException | NumberFormatException ex) {
+			} catch (PVMException ex) {
 				e.getPlayer().sendMessage(
 						Vars.PVMPrefix + "" + ChatColor.RED
 								+ Vars.userError(ex.getMessage()));
 				return;
+			} catch (NumberFormatException ex){
+				e.getPlayer().sendMessage(Vars.PVMPrefix + ChatColor.RED + "Invalid Arena");
 			}
 			e.setLine(1, ChatColor.GOLD + arena);
 		}
 	}
 
 	@EventHandler
-	public void SignClick(PlayerInteractEvent e) {
+	public void onRightClick(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getClickedBlock().getState() instanceof Sign) {
@@ -179,6 +189,13 @@ public class PVMEventHandler implements Listener {
 					}
 				}
 			}
+		}
+		ItemStack goldIngot = new ItemStack(Material.GOLD_INGOT);
+		ItemMeta renameMeta = goldIngot.getItemMeta();
+		renameMeta.setDisplayName(ChatColor.RED + "Upgrade Sword");
+		goldIngot.setItemMeta(renameMeta);
+		if(e.getPlayer().getItemInHand().isSimilar(goldIngot) && Vars.playerGameStatus.containsKey(e.getPlayer().getName())){
+			GameManager.upgradeSwordRank(player);
 		}
 	}
 }

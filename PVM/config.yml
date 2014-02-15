@@ -7,7 +7,7 @@ Armor:
   Leggings: LEATHER_LEGGINGS
   Boots: LEATHER_BOOTS
 GivenItems: #Up To 10 Items Given
-  1: STONE_SWORD
+  1: WOODEN_SWORD
 MySQL:
   Host:
   User:
@@ -19,6 +19,16 @@ Lobby:
   z: 0
   w: world
   teleport-on-join: false
+SwordRanks:
+  1:
+    Item: STONE_SWORD
+    Cost: 75
+  2:
+    Item: IRON_SWORD
+    Cost: 200
+  3:
+    Item: DIAMOND_SWORD
+    Cost: 450
 Arenas:
   1: 
     x:

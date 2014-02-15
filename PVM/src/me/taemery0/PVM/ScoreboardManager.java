@@ -1,5 +1,8 @@
 package me.taemery0.PVM;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,15 +32,16 @@ public class ScoreboardManager {
 	private static Scoreboard killsboard = manager.getNewScoreboard();
 	public static Objective killsobjective = killsboard.registerNewObjective(
 			ChatColor.GOLD + "PVM-Points", "dummy");
+	public static Map<String, Integer> swordRank = new HashMap<String, Integer>();
 	public static void mobKill(Player player) {
 		int current = killsobjective.getScore(player).getScore();
 		killsobjective.getScore(player).setScore(current + 5);
-
 	}
 	public static void ingameScoreboard(Player player) {
 		killsobjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		killsobjective.setDisplayName(ChatColor.GOLD + "PVM Points:");
 		player.setScoreboard(killsboard);
+		swordRank.put(player.getName(), 0);
 	}
 	public static void resetPlayerPoints(Player player) {
 		killsboard.resetScores(player);
@@ -45,5 +49,12 @@ public class ScoreboardManager {
 	public static void resetPlayerScoreboard(Player player){
 		Scoreboard Scoreboard = manager.getNewScoreboard();
 		player.setScoreboard(Scoreboard);
+		swordRank.remove(player.getName());
+	}
+	public static void setPlayerKillsPoints(Player player, Integer score){
+		killsobjective.getScore(player).setScore(score);
+	}
+	public static Integer getPlayerKillsPoints(Player player){
+		return killsobjective.getScore(player).getScore();
 	}
 }
